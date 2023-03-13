@@ -74,6 +74,8 @@ namespace EmployeeInformation
             dataGridView1.DataSource = dt;
         }
 
+
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -97,6 +99,22 @@ namespace EmployeeInformation
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string connection = "server=localhost;user id=root;password=;database=hargarecord";
+            MySqlConnection con = new MySqlConnection(connection);
+            MySqlDataAdapter da;
+            DataTable dt;
+            con.Open();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM tbl_barang WHERE NAMA LIKE @searchTerm OR EMPID LIKE @searchTerm OR PRODUKSI LIKE @searchTerm", con);
+            cmd.Parameters.AddWithValue("@searchTerm", this.textBox1.Text + "%");
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+            con.Close();
         }
     }
 }
